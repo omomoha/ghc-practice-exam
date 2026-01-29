@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub Copilot Practice Exam</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page__title">
+        <h1>Dashboard User Admin Panel</h1>
+        <p>GitHub Copilot Practice Exam</p>
+      </header>
+
+      <main class="dashboard">
+        <aside class="dashboard__sidebar">
+          <div class="sidebar__brand">
+            <span class="sidebar__logo">LOGO NAME</span>
+            <span class="sidebar__subtitle">Lorem Ipsum</span>
+          </div>
+          <nav class="sidebar__nav">
+            <button class="sidebar__link is-active" type="button">
+              Lorem Ipsum
+            </button>
+            <button class="sidebar__link" type="button">Lorem Ipsum</button>
+            <button class="sidebar__link" type="button">Lorem Impsuum</button>
+            <button class="sidebar__link" type="button">Lorem Ipsum</button>
+            <button class="sidebar__link" type="button">Lorem Ipsum</button>
+            <button class="sidebar__link" type="button">Lorem Ipsum</button>
+          </nav>
+          <div class="sidebar__card">
+            <p class="sidebar__card-title">Practice attempts</p>
+            <p id="attempt-count" class="sidebar__card-value">0</p>
+            <p class="sidebar__card-note">Completed exams stored locally.</p>
+          </div>
+          <button class="sidebar__logout" type="button">Log out</button>
+        </aside>
+
+        <section class="dashboard__main">
+          <div class="dashboard__topbar">
+            <div>
+              <p class="dashboard__kicker">Lorem Ipsum</p>
+              <h2>Welcome back, Admin</h2>
+            </div>
+            <div class="dashboard__profile">
+              <div>
+                <p class="dashboard__name">Lorem Ipsum</p>
+                <p class="dashboard__role">Admin</p>
+              </div>
+              <div class="dashboard__avatar" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="dashboard__widgets">
+            <div class="widget">
+              <p class="widget__label">Question bank</p>
+              <p id="question-bank-count" class="widget__value">200</p>
+            </div>
+            <div class="widget">
+              <p class="widget__label">Recommended time</p>
+              <p class="widget__value">150 min</p>
+            </div>
+            <div class="widget">
+              <p class="widget__label">Attempted exams</p>
+              <p id="attempt-count-widget" class="widget__value">0</p>
+            </div>
+          </div>
+
+          <div class="dashboard__workspace">
+            <section id="setup" class="card">
+              <h2>Exam Setup</h2>
+              <p class="muted">
+                Choose your exam length and mode. Use practice mode for immediate
+                feedback or exam mode to review answers at the end.
+              </p>
+              <div class="field">
+                <label for="exam-length">Exam length</label>
+                <select id="exam-length">
+                  <option value="70">70 questions</option>
+                  <option value="100">100 questions</option>
+                  <option value="150">150 questions</option>
+                  <option value="200" selected>200 questions</option>
+                </select>
+              </div>
+
+              <fieldset class="field">
+                <legend>Mode</legend>
+                <label class="radio">
+                  <input type="radio" name="mode" value="practice" checked />
+                  Practice mode (show answer immediately)
+                </label>
+                <label class="radio">
+                  <input type="radio" name="mode" value="exam" />
+                  Exam mode (score at the end)
+                </label>
+              </fieldset>
+
+              <label class="checkbox">
+                <input type="checkbox" id="shuffle" checked />
+                Shuffle questions
+              </label>
+
+              <button id="start-btn" class="btn btn--primary">Start exam</button>
+            </section>
+
+            <section id="exam" class="is-hidden">
+              <div class="exam-layout">
+                <div class="card exam-main">
+                  <div class="exam__meta">
+                    <div class="progress">
+                      <div id="progress-text" class="progress__text"></div>
+                      <div class="progress__track">
+                        <div id="progress-bar" class="progress__bar"></div>
+                      </div>
+                    </div>
+                    <span id="score-preview" class="muted"></span>
+                  </div>
+                  <p id="question-count" class="question-count"></p>
+                  <h2 id="question-text"></h2>
+                  <div id="choices" class="choices"></div>
+                  <div id="feedback" class="feedback"></div>
+                  <div class="actions">
+                    <button id="prev-btn" class="btn btn--ghost">
+                      Previous
+                    </button>
+                    <button id="check-btn" class="btn btn--ghost">
+                      Check your answer
+                    </button>
+                    <button id="next-btn" class="btn btn--primary">Next</button>
+                    <button id="finish-btn" class="btn btn--primary is-hidden">
+                      Finish
+                    </button>
+                  </div>
+                </div>
+
+                <aside class="exam-sidebar">
+                  <div class="card timer-card">
+                    <h3>Time</h3>
+                    <div class="timer-grid">
+                      <div>
+                        <p class="timer-label">Total remaining</p>
+                        <p id="total-timer" class="timer-value">--:--:--</p>
+                      </div>
+                      <div>
+                        <p class="timer-label">Question time</p>
+                        <p id="question-timer" class="timer-value">--:--</p>
+                      </div>
+                    </div>
+                    <p class="timer-hint">
+                      Time is evenly distributed per question.
+                    </p>
+                  </div>
+                  <div class="card nav-card">
+                    <h3>Questions</h3>
+                    <div id="question-nav" class="question-nav"></div>
+                    <div class="legend">
+                      <span class="legend__item">
+                        <span class="legend__dot legend__dot--current"></span>
+                        Current
+                      </span>
+                      <span class="legend__item">
+                        <span class="legend__dot legend__dot--answered"></span>
+                        Answered
+                      </span>
+                      <span class="legend__item">
+                        <span class="legend__dot legend__dot--empty"></span>
+                        Unanswered
+                      </span>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </section>
+
+            <section id="results" class="card is-hidden">
+              <h2>Results</h2>
+              <p id="score-summary"></p>
+              <div id="review" class="review"></div>
+              <button id="restart-btn" class="btn btn--primary">
+                Start a new exam
+              </button>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./questions.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
