@@ -28,6 +28,7 @@ const restartButton = document.getElementById("restart-btn");
 const attemptCount = document.getElementById("attempt-count");
 const attemptCountWidget = document.getElementById("attempt-count-widget");
 const questionBankCount = document.getElementById("question-bank-count");
+const recommendedTime = document.getElementById("recommended-time");
 
 let mode = "practice";
 let examQuestions = [];
@@ -80,6 +81,26 @@ const shuffleArray = (items) => {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+};
+
+const renderQuestionBankCount = () => {
+  if (!questionBankCount || !examLengthSelect) {
+    return;
+  }
+  const selectedLength = Number(examLengthSelect.value);
+  questionBankCount.textContent = Number.isNaN(selectedLength)
+    ? QUESTION_BANK.length
+    : Math.min(selectedLength, QUESTION_BANK.length);
+};
+
+const renderRecommendedTime = () => {
+  if (!recommendedTime || !examLengthSelect) {
+    return;
+  }
+  const selectedLength = Number(examLengthSelect.value);
+  const seconds = durationMap[selectedLength];
+  const minutes = seconds ? Math.round(seconds / 60) : 0;
+  recommendedTime.textContent = minutes ? `${minutes} min` : "--";
 };
 
 const startExam = () => {
@@ -365,6 +386,8 @@ const restartExam = () => {
 };
 
 startButton.addEventListener("click", startExam);
+examLengthSelect.addEventListener("change", renderQuestionBankCount);
+examLengthSelect.addEventListener("change", renderRecommendedTime);
 nextButton.addEventListener("click", goNext);
 prevButton.addEventListener("click", goPrev);
 checkButton.addEventListener("click", checkAnswer);
@@ -372,6 +395,5 @@ finishButton.addEventListener("click", finishExam);
 restartButton.addEventListener("click", restartExam);
 
 renderAttemptCount();
-if (questionBankCount) {
-  questionBankCount.textContent = QUESTION_BANK.length;
-}
+renderQuestionBankCount();
+renderRecommendedTime();

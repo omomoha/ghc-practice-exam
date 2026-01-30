@@ -44,7 +44,7 @@ body {
   border-radius: 28px;
   padding: 28px;
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   box-shadow:
     0 28px 70px rgba(15, 23, 42, 0.35),
@@ -154,47 +154,12 @@ body {
   gap: 16px;
 }
 
-.dashboard__kicker {
-  margin: 0 0 6px;
-  font-size: 12px;
-  letter-spacing: 2.6px;
-  text-transform: uppercase;
-  color: rgba(226, 232, 240, 0.7);
-}
-
 .dashboard__topbar h2 {
   margin: 0;
   font-size: 21px;
   font-weight: 500;
 }
 
-.dashboard__profile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.dashboard__name {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: right;
-}
-
-.dashboard__role {
-  margin: 2px 0 0;
-  font-size: 11px;
-  color: rgba(226, 232, 240, 0.7);
-  text-align: right;
-}
-
-.dashboard__avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.18);
-}
 
 .dashboard__widgets {
   display: grid;
