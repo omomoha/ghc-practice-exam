@@ -3,7 +3,9 @@ const setupSection = document.getElementById("setup");
 const examSection = document.getElementById("exam");
 const resultsSection = document.getElementById("results");
 
-const examLengthSelect = document.getElementById("exam-length");
+const examLengthInputs = document.querySelectorAll(
+  "input[name='exam-length']"
+);
 const startButton = document.getElementById("start-btn");
 const shuffleToggle = document.getElementById("shuffle");
 const progressText = document.getElementById("progress-text");
@@ -29,8 +31,9 @@ const attemptCount = document.getElementById("attempt-count");
 const attemptCountWidget = document.getElementById("attempt-count-widget");
 const questionBankCount = document.getElementById("question-bank-count");
 const recommendedTime = document.getElementById("recommended-time");
+const modeInputs = document.querySelectorAll("input[name='mode']");
 
-let mode = "practice";
+let mode = "exam";
 let examQuestions = [];
 let currentIndex = 0;
 let answers = [];
@@ -65,14 +68,19 @@ const incrementAttemptCount = () => {
 };
 
 const durationMap = {
-  70: 90 * 60,
-  100: 120 * 60,
-  150: 135 * 60,
-  200: 150 * 60,
+  50: 40 * 60,
+  100: 60 * 60,
+  150: 90 * 60,
+  200: 110 * 60,
 };
 
 const getMode = () =>
   document.querySelector("input[name='mode']:checked").value;
+
+const getSelectedLength = () => {
+  const checked = document.querySelector("input[name='exam-length']:checked");
+  return checked ? Number(checked.value) : 50;
+};
 
 const shuffleArray = (items) => {
   const array = [...items];
@@ -84,20 +92,20 @@ const shuffleArray = (items) => {
 };
 
 const renderQuestionBankCount = () => {
-  if (!questionBankCount || !examLengthSelect) {
+  if (!questionBankCount) {
     return;
   }
-  const selectedLength = Number(examLengthSelect.value);
+  const selectedLength = getSelectedLength();
   questionBankCount.textContent = Number.isNaN(selectedLength)
     ? QUESTION_BANK.length
     : Math.min(selectedLength, QUESTION_BANK.length);
 };
 
 const renderRecommendedTime = () => {
-  if (!recommendedTime || !examLengthSelect) {
+  if (!recommendedTime) {
     return;
   }
-  const selectedLength = Number(examLengthSelect.value);
+  const selectedLength = getSelectedLength();
   const seconds = durationMap[selectedLength];
   const minutes = seconds ? Math.round(seconds / 60) : 0;
   recommendedTime.textContent = minutes ? `${minutes} min` : "--";
@@ -105,7 +113,7 @@ const renderRecommendedTime = () => {
 
 const startExam = () => {
   mode = getMode();
-  const length = Number(examLengthSelect.value);
+  const length = getSelectedLength();
   const baseQuestions = shuffleToggle.checked
     ? shuffleArray(QUESTION_BANK)
     : [...QUESTION_BANK];
@@ -146,7 +154,7 @@ const renderQuestion = () => {
     examQuestions.length
   }`;
   scorePreview.textContent =
-    mode === "practice"
+    mode === "study"
       ? `Score so far: ${calculateScore()} / ${examQuestions.length}`
       : "";
 
@@ -176,14 +184,14 @@ const renderQuestion = () => {
   const isLast = currentIndex === examQuestions.length - 1;
   nextButton.classList.toggle("is-hidden", isLast);
   finishButton.classList.toggle("is-hidden", !isLast);
-  checkButton.classList.toggle("is-hidden", mode !== "practice");
+  checkButton.classList.add("is-hidden");
 
   if (lastRenderedIndex !== currentIndex) {
     questionStart = Date.now();
     lastRenderedIndex = currentIndex;
   }
 
-  if (mode === "practice" && checked[currentIndex]) {
+  if (mode === "study" && checked[currentIndex]) {
     showPracticeFeedback();
   } else {
     feedback.innerHTML = "";
@@ -193,6 +201,9 @@ const renderQuestion = () => {
 
 const handleAnswer = (choiceIndex) => {
   answers[currentIndex] = choiceIndex;
+  if (mode === "study") {
+    checked[currentIndex] = true;
+  }
   renderQuestion();
 };
 
@@ -302,6 +313,20 @@ const renderQuestionNav = () => {
   });
 };
 
+const updateOptionSelection = () => {
+  document.querySelectorAll(".option").forEach((label) => {
+    const input = label.querySelector("input");
+    label.classList.toggle("is-selected", Boolean(input && input.checked));
+  });
+};
+
+const updateModeSelection = () => {
+  document.querySelectorAll(".mode-card").forEach((label) => {
+    const input = label.querySelector("input");
+    label.classList.toggle("is-selected", Boolean(input && input.checked));
+  });
+};
+
 const goNext = () => {
   if (currentIndex < examQuestions.length - 1) {
     currentIndex += 1;
@@ -386,8 +411,14 @@ const restartExam = () => {
 };
 
 startButton.addEventListener("click", startExam);
-examLengthSelect.addEventListener("change", renderQuestionBankCount);
-examLengthSelect.addEventListener("change", renderRecommendedTime);
+examLengthInputs.forEach((input) => {
+  input.addEventListener("change", renderQuestionBankCount);
+  input.addEventListener("change", renderRecommendedTime);
+  input.addEventListener("change", updateOptionSelection);
+});
+modeInputs.forEach((input) => {
+  input.addEventListener("change", updateModeSelection);
+});
 nextButton.addEventListener("click", goNext);
 prevButton.addEventListener("click", goPrev);
 checkButton.addEventListener("click", checkAnswer);
@@ -397,3 +428,5 @@ restartButton.addEventListener("click", restartExam);
 renderAttemptCount();
 renderQuestionBankCount();
 renderRecommendedTime();
+updateOptionSelection();
+updateModeSelection();

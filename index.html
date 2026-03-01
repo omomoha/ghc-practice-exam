@@ -12,150 +12,194 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="page">
-      <header class="page__title">
-        <h1>Mock Assessment Portal</h1>
-        <p>GitHub Copilot Practice Exam</p>
+    <div class="shell">
+      <header class="hero">
+        <p class="hero__eyebrow">GitHub Copilot</p>
+        <h1>GitHub Copilot Fundamentals</h1>
+        <p class="hero__subhead">GH-300 Mock Assessment</p>
+        <div class="banner">
+          Recommendation: Scoring 80%+ indicates you are ready for the GH-300 exam.
+        </div>
       </header>
 
-      <main class="dashboard">
-        <section class="dashboard__main">
-          <div class="dashboard__topbar">
-            <div>
-              <h2>Welcome</h2>
-            </div>
+      <main class="assessment">
+        <div class="stats">
+          <div class="stat">
+            <p class="stat__label">Question bank</p>
+            <p id="question-bank-count" class="stat__value">200</p>
           </div>
-
-          <div class="dashboard__widgets">
-            <div class="widget">
-              <p class="widget__label">Question bank</p>
-              <p id="question-bank-count" class="widget__value">200</p>
-            </div>
-            <div class="widget">
-              <p class="widget__label">Recommended time</p>
-              <p id="recommended-time" class="widget__value">150 min</p>
-            </div>
-            <div class="widget">
-              <p class="widget__label">Attempted exams</p>
-              <p id="attempt-count-widget" class="widget__value">0</p>
-            </div>
+          <div class="stat">
+            <p class="stat__label">Recommended time</p>
+            <p id="recommended-time" class="stat__value">40 min</p>
           </div>
+          <div class="stat">
+            <p class="stat__label">Attempted exams</p>
+            <p id="attempt-count-widget" class="stat__value">0</p>
+          </div>
+        </div>
 
-          <div class="dashboard__workspace">
-            <section id="setup" class="card">
-              <h2>Exam Setup</h2>
-              <p class="muted">
-                Choose your exam length and mode. Use practice mode for immediate
-                feedback or exam mode to review answers at the end.
-              </p>
-              <div class="field">
-                <label for="exam-length">Exam length</label>
-                <select id="exam-length">
-                  <option value="70">70 questions</option>
-                  <option value="100">100 questions</option>
-                  <option value="150">150 questions</option>
-                  <option value="200" selected>200 questions</option>
-                </select>
+        <section id="setup" class="card card--setup">
+          <div class="setup__grid">
+            <div class="panel">
+              <div class="panel__header">
+                <h2>Section</h2>
+                <p class="muted">Choose the number of questions.</p>
               </div>
-
-              <fieldset class="field">
-                <legend>Mode</legend>
-                <label class="radio">
-                  <input type="radio" name="mode" value="practice" checked />
-                  Practice mode (show answer immediately)
+              <div class="option-list">
+                <label class="option">
+                  <input type="radio" name="exam-length" value="50" checked />
+                  <span class="option__label">50 questions</span>
+                  <span class="option__meta">40 min</span>
                 </label>
-                <label class="radio">
-                  <input type="radio" name="mode" value="exam" />
-                  Exam mode (score at the end)
+                <label class="option">
+                  <input type="radio" name="exam-length" value="100" />
+                  <span class="option__label">100 questions</span>
+                  <span class="option__meta">60 min</span>
                 </label>
-              </fieldset>
+                <label class="option">
+                  <input type="radio" name="exam-length" value="150" />
+                  <span class="option__label">150 questions</span>
+                  <span class="option__meta">90 min</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="exam-length" value="200" />
+                  <span class="option__label">200 questions</span>
+                  <span class="option__meta">110 min</span>
+                </label>
+              </div>
+            </div>
 
-              <label class="checkbox">
-                <input type="checkbox" id="shuffle" checked />
-                Shuffle questions
-              </label>
+            <div class="panel">
+              <div class="panel__header">
+                <h2>Mode</h2>
+                <p class="muted">Pick how you want to take the assessment.</p>
+              </div>
+              <div class="mode-cards">
+                <label class="mode-card is-selected">
+                  <input type="radio" name="mode" value="exam" checked />
+                  <span class="mode-card__title">Exam</span>
+                  <span class="mode-card__desc">
+                    See answers only at the end. Mirrors the real exam.
+                  </span>
+                </label>
+                <label class="mode-card">
+                  <input type="radio" name="mode" value="study" />
+                  <span class="mode-card__title">Study</span>
+                  <span class="mode-card__desc">
+                    Get immediate feedback with explanations after each question.
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
 
-              <button id="start-btn" class="btn btn--primary">Start exam</button>
-            </section>
+          <label class="checkbox">
+            <input type="checkbox" id="shuffle" checked />
+            Shuffle questions
+          </label>
 
-            <section id="exam" class="is-hidden">
-              <div class="exam-layout">
-                <div class="card exam-main">
-                  <div class="exam__meta">
-                    <div class="progress">
-                      <div id="progress-text" class="progress__text"></div>
-                      <div class="progress__track">
-                        <div id="progress-bar" class="progress__bar"></div>
-                      </div>
-                    </div>
-                    <span id="score-preview" class="muted"></span>
-                  </div>
-                  <p id="question-count" class="question-count"></p>
-                  <h2 id="question-text"></h2>
-                  <div id="choices" class="choices"></div>
-                  <div id="feedback" class="feedback"></div>
-                  <div class="actions">
-                    <button id="prev-btn" class="btn btn--ghost">
-                      Previous
-                    </button>
-                    <button id="check-btn" class="btn btn--ghost">
-                      Check your answer
-                    </button>
-                    <button id="next-btn" class="btn btn--primary">Next</button>
-                    <button id="finish-btn" class="btn btn--primary is-hidden">
-                      Finish
-                    </button>
+          <button id="start-btn" class="btn btn--primary">
+            Start assessment
+          </button>
+        </section>
+
+        <section class="card card--guide">
+          <h2>Exam guide highlights</h2>
+          <p class="muted">
+            Skills measured as of January 2026 for GH-300.
+          </p>
+          <div class="guide-grid">
+            <div class="guide-item">Use GitHub Copilot responsibly</div>
+            <div class="guide-item">Use Copilot features across environments</div>
+            <div class="guide-item">Understand Copilot data and architecture</div>
+            <div class="guide-item">Apply prompt engineering and context</div>
+            <div class="guide-item">Improve developer productivity</div>
+            <div class="guide-item">Configure privacy and content exclusions</div>
+          </div>
+          <a
+            class="guide-link"
+            href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/gh-300?source=docs"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View the GH-300 study guide
+          </a>
+        </section>
+
+        <section id="exam" class="is-hidden">
+          <div class="exam-layout">
+            <div class="card exam-main">
+              <div class="exam__meta">
+                <div class="progress">
+                  <div id="progress-text" class="progress__text"></div>
+                  <div class="progress__track">
+                    <div id="progress-bar" class="progress__bar"></div>
                   </div>
                 </div>
-
-                <aside class="exam-sidebar">
-                  <div class="card timer-card">
-                    <h3>Time</h3>
-                    <div class="timer-grid">
-                      <div>
-                        <p class="timer-label">Total remaining</p>
-                        <p id="total-timer" class="timer-value">--:--:--</p>
-                      </div>
-                      <div>
-                        <p class="timer-label">Question time</p>
-                        <p id="question-timer" class="timer-value">--:--</p>
-                      </div>
-                    </div>
-                    <p class="timer-hint">
-                      Time is evenly distributed per question.
-                    </p>
-                  </div>
-                  <div class="card nav-card">
-                    <h3>Questions</h3>
-                    <div id="question-nav" class="question-nav"></div>
-                    <div class="legend">
-                      <span class="legend__item">
-                        <span class="legend__dot legend__dot--current"></span>
-                        Current
-                      </span>
-                      <span class="legend__item">
-                        <span class="legend__dot legend__dot--answered"></span>
-                        Answered
-                      </span>
-                      <span class="legend__item">
-                        <span class="legend__dot legend__dot--empty"></span>
-                        Unanswered
-                      </span>
-                    </div>
-                  </div>
-                </aside>
+                <span id="score-preview" class="muted"></span>
               </div>
-            </section>
+              <p id="question-count" class="question-count"></p>
+              <h2 id="question-text"></h2>
+              <div id="choices" class="choices"></div>
+              <div id="feedback" class="feedback"></div>
+              <div class="actions">
+                <button id="prev-btn" class="btn btn--ghost">Previous</button>
+                <button id="check-btn" class="btn btn--ghost is-hidden">
+                  Check your answer
+                </button>
+                <button id="next-btn" class="btn btn--primary">Next</button>
+                <button id="finish-btn" class="btn btn--primary is-hidden">
+                  Finish
+                </button>
+              </div>
+            </div>
 
-            <section id="results" class="card is-hidden">
-              <h2>Results</h2>
-              <p id="score-summary"></p>
-              <div id="review" class="review"></div>
-              <button id="restart-btn" class="btn btn--primary">
-                Start a new exam
-              </button>
-            </section>
+            <aside class="exam-sidebar">
+              <div class="card timer-card">
+                <h3>Time</h3>
+                <div class="timer-grid">
+                  <div>
+                    <p class="timer-label">Total remaining</p>
+                    <p id="total-timer" class="timer-value">--:--:--</p>
+                  </div>
+                  <div>
+                    <p class="timer-label">Question time</p>
+                    <p id="question-timer" class="timer-value">--:--</p>
+                  </div>
+                </div>
+                <p class="timer-hint">
+                  Time is evenly distributed per question.
+                </p>
+              </div>
+              <div class="card nav-card">
+                <h3>Questions</h3>
+                <div id="question-nav" class="question-nav"></div>
+                <div class="legend">
+                  <span class="legend__item">
+                    <span class="legend__dot legend__dot--current"></span>
+                    Current
+                  </span>
+                  <span class="legend__item">
+                    <span class="legend__dot legend__dot--answered"></span>
+                    Answered
+                  </span>
+                  <span class="legend__item">
+                    <span class="legend__dot legend__dot--empty"></span>
+                    Unanswered
+                  </span>
+                </div>
+              </div>
+            </aside>
           </div>
+        </section>
+
+        <section id="results" class="card is-hidden">
+          <h2>Results</h2>
+          <p id="score-summary"></p>
+          <div id="review" class="review"></div>
+          <button id="restart-btn" class="btn btn--primary">
+            Start a new assessment
+          </button>
         </section>
       </main>
     </div>
