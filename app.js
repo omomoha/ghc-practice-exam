@@ -91,6 +91,22 @@ const shuffleArray = (items) => {
   return array;
 };
 
+const shuffleChoices = (question) => {
+  const indexedChoices = question.choices.map((choice, index) => ({
+    choice,
+    index,
+  }));
+  const shuffled = shuffleArray(indexedChoices);
+  const newAnswerIndex = shuffled.findIndex(
+    (item) => item.index === question.answerIndex
+  );
+  return {
+    ...question,
+    choices: shuffled.map((item) => item.choice),
+    answerIndex: newAnswerIndex,
+  };
+};
+
 const renderQuestionBankCount = () => {
   if (!questionBankCount) {
     return;
@@ -118,10 +134,14 @@ const startExam = () => {
     ? shuffleArray(QUESTION_BANK)
     : [...QUESTION_BANK];
 
+  const randomizedQuestions = baseQuestions.map((question) =>
+    shuffleChoices(question)
+  );
+
   totalSeconds = durationMap[length] || 90 * 60;
   perQuestionSeconds = totalSeconds / length;
 
-  examQuestions = baseQuestions.slice(0, length);
+  examQuestions = randomizedQuestions.slice(0, length);
   answers = Array(examQuestions.length).fill(null);
   checked = Array(examQuestions.length).fill(false);
   currentIndex = 0;
