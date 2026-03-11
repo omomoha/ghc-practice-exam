@@ -3301,4 +3301,95 @@ const QUESTION_BANK = [
     answerIndex: 0,
     explanation: "Productivity gains come with review and validation.",
   },
+  {
+    id: 275,
+    question:
+      "Which skill area focuses on configuring content exclusions and safeguards?",
+    choices: [
+      "Configure privacy, content exclusions, and safeguards",
+      "Improve developer productivity with GitHub Copilot",
+      "Apply prompt engineering and context crafting",
+      "Use GitHub Copilot responsibly",
+    ],
+    answerIndex: 0,
+    explanation: "Privacy, exclusions, and safeguards are a dedicated skill area.",
+  },
+  {
+    id: 276,
+    question:
+      "Which activity best aligns with understanding Copilot data and architecture?",
+    choices: [
+      "Explaining how context is collected and prompts are built",
+      "Choosing an IDE theme",
+      "Renaming repository branches",
+      "Publishing a release",
+    ],
+    answerIndex: 0,
+    explanation: "Data flow and prompt construction are core architecture topics.",
+  },
+  {
+    id: 277,
+    question:
+      "Which prompt practice most directly improves prompt engineering results?",
+    choices: [
+      "State the goal, constraints, and expected output",
+      "Use a vague one-liner",
+      "Avoid specifying the language",
+      "Remove all context",
+    ],
+    answerIndex: 0,
+    explanation: "Clear goals and constraints improve output quality.",
+  },
+  {
+    id: 278,
+    question:
+      "Which scenario best reflects responsible Copilot usage?",
+    choices: [
+      "Review suggestions, validate with tests, and follow policy",
+      "Accept all suggestions without review",
+      "Share secrets to get better suggestions",
+      "Skip security checks for speed",
+    ],
+    answerIndex: 0,
+    explanation: "Responsible usage requires review, testing, and policy adherence.",
+  },
+  {
+    id: 279,
+    question:
+      "Which is an example of using GitHub Copilot features across environments?",
+    choices: [
+      "Using Copilot Chat in the IDE and Copilot on GitHub.com",
+      "Only using syntax highlighting",
+      "Only using local git hooks",
+      "Only using a terminal alias",
+    ],
+    answerIndex: 0,
+    explanation: "Copilot features span IDEs, GitHub.com, and the CLI.",
+  },
+  {
+    id: 280,
+    question:
+      "Which action best demonstrates improving developer productivity with Copilot?",
+    choices: [
+      "Generate boilerplate code and then review it",
+      "Disable tests to reduce cycle time",
+      "Avoid documentation entirely",
+      "Accept all suggestions automatically",
+    ],
+    answerIndex: 0,
+    explanation: "Copilot can speed work when paired with review and tests.",
+  },
+  {
+    id: 281,
+    question:
+      "Which option represents a GitHub Copilot feature that supports code review?",
+    choices: [
+      "Copilot-assisted pull request summaries on GitHub.com",
+      "Manual linting only",
+      "Disabling review comments",
+      "Removing PR templates",
+    ],
+    answerIndex: 0,
+    explanation: "Copilot can assist with PR summaries and review workflows.",
+  },
 ];
